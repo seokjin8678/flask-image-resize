@@ -2,13 +2,10 @@ import uuid
 from io import BytesIO
 from PIL import Image
 from flask import Flask, request, redirect, render_template, Response, session
+import requests
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().__str__()
-
-users = {
-    'festago': 'vptmxkrh'
-}
 
 
 @app.before_request
@@ -34,7 +31,9 @@ def login_view():
 def login():
     username = request.form['username']
     password = request.form['password']
-    if username in users and users[username] == password:
+    response = requests.post("https://festago.org/admin/api/v1/auth/login",
+                             json={'username': username, 'password': password})
+    if response.status_code == 200:
         session['username'] = username
         return redirect('/')
     return redirect('/login')
