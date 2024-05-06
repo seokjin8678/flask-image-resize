@@ -1,0 +1,7 @@
+services:
+  flask-image-resize:
+    image: flask-image-resize:latest
+    container_name: flask-image-resize
+    restart: always
+    ports:
+      - 5000:5000
