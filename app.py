@@ -11,10 +11,17 @@ users = {
 }
 
 
-@app.get('/')
-def index():
+@app.before_request
+def check_user_logged_in():
+    if request.path in ['/login']:
+        return
+
     if 'username' not in session:
         return redirect('/login')
+
+
+@app.get('/')
+def index():
     return render_template('index.html')
 
 
