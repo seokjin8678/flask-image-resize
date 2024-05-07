@@ -1,7 +1,7 @@
 import uuid
 from io import BytesIO
 from PIL import Image
-from flask import Flask, request, redirect, render_template, Response, session
+from flask import Flask, request, redirect, render_template, Response, session, send_file
 import requests
 
 app = Flask(__name__)
@@ -49,14 +49,21 @@ def resize():
 
     output_stream = BytesIO()
     resize_img.save(output_stream, format=img.format)
+    output_stream.seek(0)
 
-    response = Response(
-        output_stream.getvalue(),
-        mimetype=file.mimetype,
-        content_type='application/octet-stream',
-    )
-    response.headers["Content-Disposition"] = f"attachment; filename=new_{file.filename}"
-    return response
+    return send_file(output_stream, mimetype=file.mimetype, as_attachment=True, download_name=f'new_{file.filename}')
+
+
+@app.post('/convert-webp')
+def convert():
+    file = request.files['image']
+    img = Image.open(file.stream)
+
+    output_stream = BytesIO()
+    img.save(output_stream, 'webp', optimize=True, quality=85)
+    output_stream.seek(0)
+
+    return send_file(output_stream, mimetype='image/webp', as_attachment=True, download_name=f'{file.filename}.webp')
 
 
 if __name__ == '__main__':

@@ -20,7 +20,7 @@
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <input type="file" class="form-control" name="image" id="image"
-                                               accept="image/png, image/jpg" required>
+                                               accept=".png, .jpg, .jpeg, .webp" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -35,6 +35,31 @@
                                         <input type="number" class="form-control" name="height" id="height" min="100" max="2048"
                                                placeholder="세로 길이" required>
                                         <label for="height" class="form-label">이미지 높이</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid my-3">
+                                        <button class="btn btn-primary btn-lg" type="submit">변환하기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4"/>
+
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <h2 class="fs-3 fw-normal text-center mb-4">WebP 변환</h2>
+                        <form method="post" enctype="multipart/form-data" action="/convert-webp">
+                            <div class="row gy-2 overflow-hidden">
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <input type="file" class="form-control" name="image" id="image"
+                                               accept=".png, .jpg, .jpeg" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
