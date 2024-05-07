@@ -40,8 +40,8 @@ def login():
     return redirect('/login')
 
 
-@app.post('/resize')
-def resize():
+@app.post('/resize-fixed')
+def resize_fixed():
     file = request.files['image']
     width = int(request.form['width'])
     height = int(request.form['height'])
@@ -55,10 +55,29 @@ def resize():
     return send_file(output_stream, mimetype=file.mimetype, as_attachment=True, download_name=f'new_{file.filename}')
 
 
+@app.post('/resize-ratio')
+def resize_ratio():
+    file = request.files['image']
+    ratio = int(request.form['ratio'])
+    img = Image.open(file.stream)
+    original_width, original_height = img.size
+
+    new_width = int(original_width * (ratio / 100))
+    new_height = int(original_height * (ratio / 100))
+    resize_img = img.resize((new_width, new_height))
+
+    output_stream = BytesIO()
+    resize_img.save(output_stream, format=img.format)
+    output_stream.seek(0)
+
+    return send_file(output_stream, mimetype=file.mimetype, as_attachment=True, download_name=f'new_{file.filename}')
+
+
 @app.post('/convert-webp')
 def convert():
     file = request.files['image']
     img = Image.open(file.stream)
+    img = img.convert('RGB')
 
     output_stream = BytesIO()
     img.save(output_stream, 'webp', optimize=True, quality=85)
