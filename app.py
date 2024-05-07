@@ -6,6 +6,7 @@ import requests
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().__str__()
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB
 
 
 @app.before_request
