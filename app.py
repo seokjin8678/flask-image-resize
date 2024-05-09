@@ -5,6 +5,7 @@ import requests
 from PIL import Image
 from flask import Flask, request, redirect, render_template, session, send_file
 import zipfile
+import time
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().__str__()
@@ -154,9 +155,10 @@ def split_grid():
     with zipfile.ZipFile(output_stream, 'w') as zip_folder:
         for idx, image in enumerate(images):
             temp = BytesIO()
-            data = zipfile.ZipInfo(f"{idx}.webp")
+            data = zipfile.ZipInfo(f"{idx}.jpeg")
+            data.date_time = time.localtime(time.time())[:6]
             data.compress_type = zipfile.ZIP_DEFLATED
-            image.save(temp, format="webp")
+            image.save(temp, format="jpeg")
             zip_folder.writestr(data, temp.getvalue())
 
     output_stream.seek(0)
