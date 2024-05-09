@@ -4,6 +4,7 @@ from io import BytesIO
 import requests
 from PIL import Image
 from flask import Flask, request, redirect, render_template, session, send_file
+import zipfile
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().__str__()
@@ -128,6 +129,40 @@ def combine_12():
 
     return send_file(output_stream, mimetype='image/webp', as_attachment=True,
                      download_name=f'combine12_{datetime.datetime.now()}.webp')
+
+
+@app.post('/split-grid')
+def split_grid():
+    file = request.files['image']
+    count = int(request.form['count'])
+    img = Image.open(file.stream)
+    img_width, img_height = img.size
+    tile_width = img_width // 3
+    tile_height = img_height // (count // 3)
+
+    images = []
+    for row in range(count // 3):
+        for col in range(3):
+            left = col * tile_width
+            top = row * tile_height
+            right = left + tile_width
+            bottom = top + tile_height
+            crop_img = img.crop((left, top, right, bottom))
+            images.append(crop_img)
+
+    output_stream = BytesIO()
+    with zipfile.ZipFile(output_stream, 'w') as zip_folder:
+        for idx, image in enumerate(images):
+            temp = BytesIO()
+            data = zipfile.ZipInfo(f"{idx}.webp")
+            data.compress_type = zipfile.ZIP_DEFLATED
+            image.save(temp, format="webp")
+            zip_folder.writestr(data, temp.getvalue())
+
+    output_stream.seek(0)
+
+    return send_file(output_stream, mimetype='application/zip', as_attachment=True,
+                     download_name=f'split_{file.filename}.zip')
 
 
 if __name__ == '__main__':

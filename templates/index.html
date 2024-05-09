@@ -172,6 +172,43 @@
                     </div>
                 </div>
             </div>
+
+            <hr class="my-4"/>
+
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <h2 class="fs-3 fw-normal text-center mb-4">이미지 그리드 자르기</h2>
+                        <form method="post" enctype="multipart/form-data" action="/split-grid">
+                            <div class="row gy-2 overflow-hidden">
+                                <div class="col-12">
+                                    <div class="form-group mb-3">
+                                        <input type="file" class="form-control" name="image" id="image"
+                                               accept=".png, .jpg, .jpeg, .webp" required
+                                               onchange="previewImage(this);">
+                                        <img class="my-2" style="max-width: 100%; height: auto;"/>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="count" class="form-label">자를 이미지 개수</label>
+                                    <div class="form-floating mb-3">
+                                        <input type="range" class="form-range" min="9" max="12" name="count" step="3"
+                                               value="9"
+                                               id="count" oninput="this.nextElementSibling.value = this.value"
+                                               required>
+                                        <output>9</output>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid my-3">
+                                        <button class="btn btn-primary btn-lg" type="submit">변환하기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
