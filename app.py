@@ -152,14 +152,14 @@ def split_grid():
             images.append(crop_img)
 
     output_stream = BytesIO()
-    with zipfile.ZipFile(output_stream, 'w') as zip_folder:
+    with zipfile.ZipFile(output_stream, 'w') as zip_file:
         for idx, image in enumerate(images):
-            temp = BytesIO()
+            temp_io = BytesIO()
             data = zipfile.ZipInfo(f"{idx}.jpeg")
             data.date_time = time.localtime(time.time())[:6]
             data.compress_type = zipfile.ZIP_DEFLATED
-            image.save(temp, format="jpeg")
-            zip_folder.writestr(data, temp.getvalue())
+            image.save(temp_io, format="jpeg")
+            zip_file.writestr(data, temp_io.getvalue())
 
     output_stream.seek(0)
 
