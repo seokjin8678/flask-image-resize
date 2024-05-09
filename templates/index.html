@@ -20,7 +20,9 @@
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <input type="file" class="form-control" name="image" id="image"
-                                               accept=".png, .jpg, .jpeg, .webp" required>
+                                               accept=".png, .jpg, .jpeg, .webp" required
+                                               onchange="previewImage(this);">
+                                        <img class="my-2" style="max-width: 100%; height: auto;"/>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -61,7 +63,9 @@
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <input type="file" class="form-control" name="image" id="image"
-                                               accept=".png, .jpg, .jpeg, .webp" required>
+                                               accept=".png, .jpg, .jpeg, .webp" required
+                                               onchange="previewImage(this);">
+                                        <img class="my-2" style="max-width: 100%; height: auto;"/>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -95,9 +99,69 @@
                                 <div class="col-12">
                                     <div class="form-group mb-3">
                                         <input type="file" class="form-control" name="image" id="image"
-                                               accept=".png, .jpg, .jpeg, .webp" required>
+                                               accept=".png, .jpg, .jpeg, .webp" required
+                                               onchange="previewImage(this);">
+                                        <img class="my-2" style="max-width: 100%; height: auto;"/>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <div class="d-grid my-3">
+                                        <button class="btn btn-primary btn-lg" type="submit">변환하기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4"/>
+
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <h2 class="fs-3 fw-normal text-center mb-4">9장 합치기</h2>
+                        <form method="post" enctype="multipart/form-data" action="/combine-9">
+                            <div class="row gy-2 overflow-hidden">
+                                {% for i in range(9) %}
+                                    <div class="col-4">
+                                        <div class="form-group mb-3">
+                                            <input type="file" class="form-control" name="image{{ i }}"
+                                                   id="image{{ i }}" accept=".png, .jpg, .jpeg, .webp" required
+                                                   onchange="previewImage(this);">
+                                            <img class="my-2" style="max-width: 100%; height: auto;"/>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="col-12">
+                                    <div class="d-grid my-3">
+                                        <button class="btn btn-primary btn-lg" type="submit">변환하기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4"/>
+
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+                <div class="card border border-light-subtle rounded-3 shadow-sm">
+                    <div class="card-body p-3 p-md-4 p-xl-5">
+                        <h2 class="fs-3 fw-normal text-center mb-4">12장 합치기</h2>
+                        <form method="post" enctype="multipart/form-data" action="/combine-12">
+                            <div class="row gy-2 overflow-hidden">
+                                {% for i in range(12) %}
+                                    <div class="col-4">
+                                        <div class="form-group mb-3">
+                                            <input type="file" class="form-control" name="image{{ i }}"
+                                                   id="image{{ i }}" accept=".png, .jpg, .jpeg, .webp" required
+                                                   onchange="previewImage(this);">
+                                            <img class="my-2" style="max-width: 100%; height: auto;"/>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                                 <div class="col-12">
                                     <div class="d-grid my-3">
                                         <button class="btn btn-primary btn-lg" type="submit">변환하기</button>
@@ -111,6 +175,22 @@
         </div>
     </div>
 </section>
+<script>
+    function previewImage(input) {
+        const imgElement = input.nextElementSibling;
+        if (!imgElement || imgElement.tagName !== 'IMG') {
+            return;
+        }
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imgElement.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
