@@ -100,7 +100,7 @@ def combine_9():
     output_stream.seek(0)
 
     return send_file(output_stream, mimetype='image/webp', as_attachment=True,
-                     download_name=f'combine12_{datetime.datetime.now()}.webp')
+                     download_name=f'combine9_{datetime.datetime.now()}.webp')
 
 
 def combine_images(images):
