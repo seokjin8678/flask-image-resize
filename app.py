@@ -106,7 +106,6 @@ def combine_9():
 def combine_images(images):
     width, height = images[0].size
     total_width = width * 3
-    print(len(images) // 3)
     total_height = height * (len(images) // 3)
     new_image = Image.new('RGB', (total_width, total_height), (0, 0, 0))
     i, j = 0, 0
