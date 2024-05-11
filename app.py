@@ -77,17 +77,17 @@ def resize_ratio():
     return send_file(output_stream, mimetype=file.mimetype, as_attachment=True, download_name=f'new_{file.filename}')
 
 
-@app.post('/convert-webp')
+@app.post('/convert-jpg')
 def convert():
     file = request.files['image']
     img = Image.open(file.stream)
     img = img.convert('RGB')
 
     output_stream = BytesIO()
-    img.save(output_stream, format='webp', optimize=True, quality=85)
+    img.save(output_stream, format='jpeg', optimize=True, quality=85)
     output_stream.seek(0)
 
-    return send_file(output_stream, mimetype='image/webp', as_attachment=True, download_name=f'{file.filename}.webp')
+    return send_file(output_stream, mimetype='image/jpeg', as_attachment=True, download_name=f'{file.filename}.jpg')
 
 
 @app.post('/combine-9')
@@ -96,11 +96,11 @@ def combine_9():
     new_image = combine_images(images)
 
     output_stream = BytesIO()
-    new_image.save(output_stream, format="webp")
+    new_image.save(output_stream, format="jpeg", optimize=True, quality=85)
     output_stream.seek(0)
 
-    return send_file(output_stream, mimetype='image/webp', as_attachment=True,
-                     download_name=f'combine9_{datetime.datetime.now()}.webp')
+    return send_file(output_stream, mimetype='image/jpeg', as_attachment=True,
+                     download_name=f'combine9_{datetime.datetime.now()}.jpg')
 
 
 def combine_images(images):
@@ -124,11 +124,11 @@ def combine_12():
     new_image = combine_images(images)
 
     output_stream = BytesIO()
-    new_image.save(output_stream, format="webp")
+    new_image.save(output_stream, format="jpeg", optimize=True, quality=85)
     output_stream.seek(0)
 
-    return send_file(output_stream, mimetype='image/webp', as_attachment=True,
-                     download_name=f'combine12_{datetime.datetime.now()}.webp')
+    return send_file(output_stream, mimetype='image/jpeg', as_attachment=True,
+                     download_name=f'combine12_{datetime.datetime.now()}.jpg')
 
 
 @app.post('/split-grid')
